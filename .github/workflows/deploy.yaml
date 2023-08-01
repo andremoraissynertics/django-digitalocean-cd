@@ -16,32 +16,27 @@ jobs:
     
     steps:
     - name: create .ssh folder
-      run: mkdir -p "~/.ssh"
+      run: mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
 
     - name: change chmod
       run: chmod 0700 "~/.ssh"
 
-    - name: create file
-      uses: mobiledevops/secret-to-file-action@v1
-      with:
-        base64-encoded-secret: ${{ secrets.DO_PRIVATE_KEY }}
-        filename: "id_rsa"
-        is-executable: true
-        working-directory: "~/.ssh"
+    - name: add hostname to known hosts
+      run: ssh-keyscan "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-    - name: add host to known hosts
-      uses: mobiledevops/secret-to-file-action@v1
-      with:
-        base64-encoded-secret: ${{ secrets.SSH_HOST }}
-        filename: "known_hosts"
-        is-executable: true
-        working-directory: "~/.ssh"
+    - name: create id_rsa
+      run: |
+        eval $(ssh-agent) \
+        ssh-add - <<< "${{ secrets.DO_PRIVATE_KEY }}"
 
-    - name: connect and pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
+    - name: connect
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+
+    - name: pull
+      run: cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull
 
     - name: restart server
       run: sudo systemctl restart gunicorn
 
     - name: cleanup
-      run: rm -rf ~/.ssh
+      run: exit && rm -rf ~/.ssh
