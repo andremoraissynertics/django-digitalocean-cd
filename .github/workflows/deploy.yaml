@@ -30,7 +30,12 @@ jobs:
         working-directory: "~/.ssh"
 
     - name: add host to known hosts
-      run: ssh-keyscan -H "${{ secrets.SSH_HOST }}" > ~/.ssh/known_hosts
+      uses: mobiledevops/secret-to-file-action@v1
+      with:
+        base64-encoded-secret: ${{ secrets.SSH_HOST }}
+        filename: "known_hosts"
+        is-executable: true
+        working-directory: "~/.ssh"
 
     - name: connect and pull
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
