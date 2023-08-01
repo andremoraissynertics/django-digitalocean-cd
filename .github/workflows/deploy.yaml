@@ -23,4 +23,4 @@ jobs:
         key: ${{ secrets.DO_PRIVATE_KEY }}
         passphrase: ${{ secrets.DO_PASSPHRASE }}
         port: 22
-        script: cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && sudo systemctl restart gunicorn
+        script: cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && python3 manage.py collectstatic && sudo systemctl restart gunicorn
