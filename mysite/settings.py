@@ -85,11 +85,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'XXX',
-            'USER': 'XXX',
-            'PASSWORD': 'XXX',
-            'HOST': 'synertics-general-postgresql-do-user-6203909-0.b.db.ondigitalocean.com',
-            'PORT': '25060',
+            'NAME': 'myproject',
+            'USER': 'myprojectuser',
+            'PASSWORD': 'password',
+            'HOST': 'localhost',
+            'PORT': '',
         }
     }
 
