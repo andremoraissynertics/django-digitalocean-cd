@@ -1,9 +1,42 @@
 <!DOCTYPE html>
 <html>
-<body>
+    <head>
+      <style>
+        *{
+            box-sizing: border-box;
+        }
 
-<h1>Hello World!</h1>
-<p>Welcome to my first Django project!</p>
+        body{
+            margin:0;
+        }
 
-</body>
+        .navbar{
+            height:64px;
+            width:100%;
+
+            border-bottom:1px solid lightgray;
+        }
+
+        .navbar div{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 15pt;
+        }
+
+        .content{
+            font-size: 12pt;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+            padding:20px;
+        }
+      </style>  
+    </head>
+    <body>
+        <div class="navbar">
+            <div>Logo</div>
+        </div>
+
+        <div class="content">
+            Hello world, how are we?
+        </div>
+    </body>
 </html>
