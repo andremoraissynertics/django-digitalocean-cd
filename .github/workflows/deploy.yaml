@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: executing remote ssh commands using ssh key
+    - name: executing git pull, collectstatic and restart server
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -27,5 +27,5 @@ jobs:
           cd ${{ secrets.WORK_DIR }} && \
           git checkout ${{ secrets.MAIN_BRANCH }} && \
           git pull && \ 
-          echo yes | python manage.py collectstatic && \ 
+          echo yes | python3 manage.py collectstatic && \ 
           sudo systemctl restart gunicorn
