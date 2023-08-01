@@ -16,7 +16,7 @@ jobs:
     
     steps:
     - name: create .ssh folder
-      run: mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
+      run: mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
 
     - name: change chmod
       run: chmod 0700 "~/.ssh"
