@@ -22,7 +22,12 @@ jobs:
       run: chmod 0700 "~/.ssh"
 
     - name: create file
-      run: echo "ola" > ~/.ssh/id_rsa
+      uses: mobiledevops/secret-to-file-action@v1
+      with:
+        base64-encoded-secret: ${{ secrets.DO_PRIVATE_KEY }}
+        filename: "id_rsa"
+        is-executable: true
+        working-directory: "~/.ssh"
 
     - name: add host to known hosts
       run: ssh-keyscan -H "${{ secrets.SSH_HOST }}" > ~/.ssh/known_hosts
