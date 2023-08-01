@@ -15,28 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: create .ssh folder
-      run: mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
-
-    - name: change chmod
-      run: chmod 0700 "~/.ssh"
-
-    - name: add hostname to known hosts
-      run: ssh-keyscan "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
-
-    - name: create id_rsa
-      run: |
-        eval $(ssh-agent) \
-        ssh-add - <<< "${{ secrets.DO_PRIVATE_KEY }}"
-
-    - name: connect
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
-
-    - name: pull
-      run: cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull
-
-    - name: restart server
-      run: sudo systemctl restart gunicorn
-
-    - name: cleanup
-      run: exit && rm -rf ~/.ssh
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.DO_PRIVATE_KEY }}
+        port: 22
+        script: whoami
