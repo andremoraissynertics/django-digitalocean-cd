@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,6 +31,10 @@
             height: fit-content;
         }
 
+        .navbar div img{
+            width: 44px;
+        }
+
         .content{
             font-size: 12pt;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -40,7 +45,7 @@
     </head>
     <body>
         <div class="navbar">
-            <div>Logo</div>
+            <div><img src="{% static 'members/img/soldiers.png' %}"/></div>
         </div>
 
         <div class="content">
